@@ -71,15 +71,15 @@
   colnames(ds)[-subAct] <- featuresNames
 
 #############
-# From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+# 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
 #############
 
-  ## aggregating data by subject and activity
+  ## aggregating data by subject and activity - tidy data set
   dsAgg <- aggregate(. ~ subject + activity,data = ds, mean)
 
 
-  ## removing every file instead of the tidy data set
+  ## removing every object instead of the tidy data set
   rm(list=setdiff(ls(), "dsAgg"))
 
-  ## saving tidy data sret
+  ## saving tidy data set
   write.table(dsAgg, 'dsAgg.txt',row.names = F)
