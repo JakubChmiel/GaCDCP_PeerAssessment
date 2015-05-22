@@ -29,9 +29,9 @@
   ## reading features names 
   features <- read.table('UCI HAR Dataset/features.txt', header=F,col.names=c('nr','name'))
 
-  ## finding features which  include entries with mean or std(it could be any position and cases in variable name). 
-  featuresMean <- grepl('mean', tolower(features$name))
-  featuresStd <- grepl('std', tolower(features$name))
+  ## finding features which labels that include mean() and std(). It does not include meanFreq(). 
+  featuresMean <- grepl('mean[[:punct:]]', features$name)
+  featuresStd <- grepl('std[[:punct:]]', features$name)
   featuresExtracted <- features$nr[featuresMean|featuresStd]
   
   ## creating new data set with extracted features 
@@ -71,15 +71,15 @@
   colnames(ds)[-subAct] <- featuresNames
 
 #############
-# 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
+# From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject. 
 #############
 
-  ## aggregating data by subject and activity - tidy data set
+  ## aggregating data by subject and activity
   dsAgg <- aggregate(. ~ subject + activity,data = ds, mean)
 
 
-  ## removing every object instead of the tidy data set
+  ## removing every file instead of the tidy data set
   rm(list=setdiff(ls(), "dsAgg"))
 
-  ## saving tidy data set
+  ## saving tidy data sret
   write.table(dsAgg, 'dsAgg.txt',row.names = F)
